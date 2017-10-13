@@ -6,19 +6,15 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  providers: [SoccerdataService],
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
   public leagues: any;
-  public league: any;
   public urlLeagues: string;
-  public urlOneLeague: string;
+
 
   constructor(public dataService: SoccerdataService, private router: Router) {
     this.urlLeagues = this.dataService.urls[0];
-    this.urlOneLeague = this.dataService.urls[1];
-
   }
 
   ngOnInit() {
@@ -32,15 +28,8 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  getOneLeague() {
-    this.dataService.load(this.urlOneLeague)
-      .then(data => {
-        this.league = data;
-      })
-  }
-
   goToLeagueDetails(){
-    this.router.navigate(['/league-details'])
+    this.router.navigateByUrl('/league-details');
   }
 
   //function to open and close sidenav

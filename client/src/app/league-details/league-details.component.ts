@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HomeComponent} from "../home/home.component";
+import {SoccerdataService} from "../sevices/soccerdata.service";
 
 @Component({
   selector: 'app-league-details',
@@ -7,15 +7,22 @@ import { HomeComponent} from "../home/home.component";
   styleUrls: ['./league-details.component.css']
 })
 export class LeagueDetailsComponent implements OnInit {
+  public detail = {};
+  public urlOneLeague: string;
 
-  public details;
-
-  constructor(public homePage:HomeComponent) {
-
-    this.details = this.homePage.getOneLeague()
+  constructor(public dataService:SoccerdataService) {
+    this.urlOneLeague = this.dataService.urls[1];
   }
 
   ngOnInit() {
+    this.getOneLeague();
+  }
+
+  getOneLeague() {
+    this.dataService.load(this.urlOneLeague)
+      .then(data => {
+        this.detail = data;
+      })
   }
 
 }
