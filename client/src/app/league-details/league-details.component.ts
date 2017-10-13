@@ -1,28 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SoccerdataService} from "../sevices/soccerdata.service";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-league-details',
   templateUrl: './league-details.component.html',
   styleUrls: ['./league-details.component.css']
 })
-export class LeagueDetailsComponent implements OnInit {
-  public detail = {};
-  public urlOneLeague: string;
+export class LeagueDetailsComponent implements OnInit, OnDestroy {
+  private leagueSlug: string;
+  private subscription: any;
 
-  constructor(public dataService:SoccerdataService) {
-    this.urlOneLeague = this.dataService.urls[1];
+  public details = {};
+  public oneLeague: any;
+
+
+  constructor(public dataService: SoccerdataService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.getOneLeague();
+    this.subscription = this.route.params.subscribe(params => {
+      this.leagueSlug = params['league_slug'];
+      this.dataService.loadLeague(this.leagueSlug)
+        .then(data => {
+          this.details = data;
+        })
+    });
   }
 
-  getOneLeague() {
-    this.dataService.load(this.urlOneLeague)
-      .then(data => {
-        this.detail = data;
-      })
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
-
 }

@@ -10,11 +10,9 @@ import { Router } from "@angular/router";
 })
 export class HomeComponent implements OnInit {
   public leagues: any;
-  public urlLeagues: string;
 
 
   constructor(public dataService: SoccerdataService, private router: Router) {
-    this.urlLeagues = this.dataService.urls[0];
   }
 
   ngOnInit() {
@@ -22,14 +20,14 @@ export class HomeComponent implements OnInit {
   }
 
   getAllLeagues() {
-    this.dataService.load(this.urlLeagues)
+    this.dataService.loadLeagues()
       .then(data => {
         this.leagues = data;
       })
   }
 
-  goToLeagueDetails(){
-    this.router.navigateByUrl('/league-details');
+  goToLeagueDetails(league){
+    this.router.navigateByUrl('/league-details/' + league.league_slug);
   }
 
   //function to open and close sidenav

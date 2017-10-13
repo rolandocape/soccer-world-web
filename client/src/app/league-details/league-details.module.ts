@@ -1,15 +1,13 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {ModuleWithProviders, NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { LeagueDetailsComponent } from './league-details.component';
+import {LeagueDetailsComponent} from './league-details.component';
 import {SoccerdataService} from "../sevices/soccerdata.service";
 
-const leagueDetailsRouting: ModuleWithProviders = RouterModule.forChild([
-  {
-    path: 'league-details',
-    component: LeagueDetailsComponent
-  }
-]);
+const leagueDetailsRouting: ModuleWithProviders = RouterModule.forChild([{
+  path: 'league-details/:league_slug',
+  component: LeagueDetailsComponent
+}]);
 
 @NgModule({
   imports: [
@@ -20,4 +18,5 @@ const leagueDetailsRouting: ModuleWithProviders = RouterModule.forChild([
   ],
   providers: [SoccerdataService]
 })
-export class LeagueDetailsModule {}
+export class LeagueDetailsModule {
+}
