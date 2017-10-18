@@ -13,8 +13,10 @@ import {AppComponent} from './app.component';
 import {SoccerdataService} from "./sevices/soccerdata.service";
 import {FooterComponent} from './shared/layout/footer/footer.component';
 import {HeaderComponent} from './shared/layout/header/header.component';
+import {SidenavComponent} from "./shared/layout/sidenav/sidenav.component";
 import {HomeModule} from './home/home.module';
 import {LeagueDetailsModule} from "./league-details/league-details.module";
+
 
 // const routes: Routes = [
 //   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -30,6 +32,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     AppComponent,
     FooterComponent,
     HeaderComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,

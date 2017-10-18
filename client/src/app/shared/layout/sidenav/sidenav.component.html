@@ -1,0 +1,10 @@
+<md-sidenav-container class="sidenav-layout">
+  <md-sidenav #sidenav class="sidenav" mode="side" [opened]="open">
+    <ul class="sidenav-font">
+      <li>Contact Us</li>
+      <li>About Us</li>
+    </ul>
+  </md-sidenav>
+  <!--translusion, use to inject content into another component-->
+  <ng-content></ng-content>
+</md-sidenav-container>

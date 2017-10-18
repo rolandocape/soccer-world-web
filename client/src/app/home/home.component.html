@@ -1,27 +1,4 @@
 
-
-<!--<md-toolbar class="toolbar-style">-->
-  <!--<span class="title-style">Soccer World</span>-->
-  <!--<md-toolbar-row>-->
-    <!--&lt;!&ndash;<button type="button" (click)="toogleNav(sidenav) (click)="clicked($event)">Open</button>&ndash;&gt;-->
-    <!--<div class="container" (click)="toogleNav(sidenav, $event)">-->
-      <!--<div class="bar1"></div>-->
-      <!--<div class="bar2"></div>-->
-      <!--<div class="bar3"></div>-->
-    <!--</div>-->
-  <!--</md-toolbar-row>-->
-<!--</md-toolbar>-->
-
-<!--<md-sidenav-container class="sidenav-layout">-->
-  <!--<md-sidenav #sidenav class="sidenav" mode="side" opened="false">-->
-    <!--<ul class="sidenav-font">-->
-      <!--<li>Contact Us</li>-->
-      <!--<li>About Us</li>-->
-    <!--</ul>-->
-  <!--</md-sidenav>-->
-
-
-
   <md-nav-list class="list-container">
     <md-list-item  class="list-style" *ngFor="let league of leagues" (click)="goToLeagueDetails(league)">
       <md-divider style="width: 100%">
@@ -40,5 +17,5 @@
       </md-divider>
     </md-list-item>
   </md-nav-list>
-<!--</md-sidenav-container>-->
+
 

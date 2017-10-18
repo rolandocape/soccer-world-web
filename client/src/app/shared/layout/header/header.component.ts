@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Output() onIconToggle: EventEmitter<any> = new EventEmitter();
 
   constructor() {
   }
@@ -13,15 +14,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  // function to open and close sidenav
-  // toogleNav(nav: any, event) {
-  //   if (nav.opened) {
-  //     nav.close();
-  //     event.target.classList.toggle('change');
-  //   } else {
-  //     nav.open();
-  //     event.target.classList.toggle('change');
-  //   }
-  // }
+  toogleNav() {
+    this.onIconToggle.emit();
+  }
 
 }

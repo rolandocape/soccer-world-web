@@ -1,0 +1,17 @@
+.sidenav-font{
+color: white;
+font-size: 20px;
+font-family: -webkit-pictograph;
+}
+
+.sidenav{
+width: 240px;
+height: 100%;
+background-color: #0b1c37 ;
+
+}
+
+.sidenav-layout{
+height: 610px;
+}
+

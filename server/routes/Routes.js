@@ -8,6 +8,7 @@ class Routes {
     static setRoutes(app) {
         app.use('/api/leagues', Routes.getLeagues);
         app.use('/api/league/:league_slug', Routes.getLeague);
+        app.use('/api/:league_slug/seasons/:season_slug', Routes.getLeagueScorers);
     }
 
 
@@ -76,6 +77,47 @@ class Routes {
             }
         });
     }
+
+
+    static getLeagueScorers(req, res) {
+        //key the parameters passed in the request
+        const key = req.params.league_slug + req.params.season_slug;
+
+        db.topscorers.findOne({key},
+            function (err, topscorers) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!topscorers || !topscorers.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/topscorers',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfTopscorers = JSON.parse(response.body).data;
+                            arrayOfTopscorers.key = key;
+
+                            db.topscorers.save(arrayOfTopscorers, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.topscorers);
+                                }
+                            });
+
+                        })
+                    } else {
+                        res.json(topscorers.topscorers);
+                    }
+                }
+            });
+    }
+
 }
 
 
