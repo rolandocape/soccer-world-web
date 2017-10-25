@@ -10,11 +10,6 @@ export class SoccerdataService {
   }
 
   loadLeagues() {
-    // if (this.data) {
-    //   // if data is already loaded
-    //   return Promise.resolve(this.data);
-    // }
-    //if the data is not loaded
     return new Promise(resolve => {
       // We're using Angular HTTP provider to request the data,then on the response, it'll map the JSON data to a parsed JS object.Next, we process the data and resolve the promise with the new data.
       this.http.get('http://localhost:3000/api/leagues')
@@ -62,4 +57,39 @@ export class SoccerdataService {
         });
     });
   }
+
+  loadSeasons() {
+    return new Promise(resolve => {
+      this.http.get('http://localhost:3000/api/seasons/serie-a')
+        .map(res => {
+          if (res.status < 200 || res.status >= 300) {
+            throw new Error('This request has failed' + res.status);
+          } else {
+            return res.json();
+          }
+        })
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        });
+    });
+  }
+
+  loadTopScorers(league_slug, season_slug){
+    return new Promise(resolve => {
+      this.http.get('http://localhost:3000/api/' + league_slug + '/seasons/' + season_slug )
+        .map(res => {
+          if(res.status < 200 || res.status >= 300){
+            throw new Error('This request has failed' + res.status);
+          }else{
+            return res.json();
+          }
+        })
+        .subscribe( data => {
+          this.data = data;
+          resolve(this.data);
+        });
+    });
+  }
+
 }

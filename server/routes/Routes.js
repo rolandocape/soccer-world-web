@@ -9,6 +9,7 @@ class Routes {
         app.use('/api/leagues', Routes.getLeagues);
         app.use('/api/league/:league_slug', Routes.getLeague);
         app.use('/api/:league_slug/seasons/:season_slug', Routes.getLeagueScorers);
+        app.use('/api/seasons/:league_slug', Routes.getSeasons);
     }
 
 
@@ -116,6 +117,38 @@ class Routes {
                     }
                 }
             });
+    }
+
+    static getSeasons(req, res){
+        db.seasons.find(function(err, seasons){
+            if(err){
+                res.send(err);
+            }else{
+                if(seasons.length === 0){
+                    request({
+                        url: URL + 'leagues/' + req.params.league_slug + '/seasons',
+                        headers: {
+                            'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                            'Accept': 'application/json'
+                        }
+                    }, (error, response)=>{
+                        if(error){
+                            throw new Error(error);
+                        }
+                        const arrayOfSeasons = JSON.parse(response.body).data.seasons;
+                        db.seasons.save(arrayOfSeasons, function(err, result){
+                            if(err){
+                                res.send(err);
+                            }else{
+                                res.json(result);
+                            }
+                        });
+                    })
+                }else{
+                    res.json(seasons);
+                }
+            }
+        });
     }
 
 }

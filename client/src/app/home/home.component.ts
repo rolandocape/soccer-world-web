@@ -30,23 +30,4 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('/league-details/' + league.league_slug);
   }
 
-  //function to open and close sidenav
-  // toogleNav(nav: any, event) {
-  //   if (nav.opened) {
-  //     nav.close();
-  //     event.target.classList.toggle('change');
-  //   } else {
-  //     nav.open();
-  //     event.target.classList.toggle('change');
-  //   }
-  // }
-
-  // clicked(event) {
-  //   if(this.toogleNav()){
-  //     event.target.classList.toggle('changeBack');
-  //   }else{
-  //     event.target.classList.toggle('change');
-  //   }
-  // }
-
 }
