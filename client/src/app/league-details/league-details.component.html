@@ -2,7 +2,8 @@
   <h1 style="text-align: center"> {{details.name}} </h1>
   <div class="season-select">
     <mat-form-field>
-      <mat-select placeholder="Seasons" [(ngModel)]="selectedSeason" (change)="getTopScorers(selectedSeason)">
+      <mat-select placeholder="Seasons" [(ngModel)]="selectedSeason"
+                  (change)="getTopScorers(selectedSeason); getStandings(selectedSeason); getRounds(selectedSeason); getReferees(selectedSeason)">
         <mat-option *ngFor="let season of seasons" [value]="season.season_slug">{{ season.name}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -35,14 +36,73 @@
               <tbody>
             </table>
           </div>
-
-
         </mat-tab>
-        <mat-tab label="Team Standings">Content 2</mat-tab>
-        <mat-tab label="Teams">Content 3</mat-tab>
-        <mat-tab label="Season Rounds">Content 4</mat-tab>
-        <mat-tab label="Managers">Content 5</mat-tab>
-        <mat-tab label="Referees">Content 6</mat-tab>
+        <mat-tab label="Team Standings">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered ">
+              <thead class="table-header">
+              <tr>
+                <th>Position</th>
+                <th>Team</th>
+                <th>Wins</th>
+                <th>Draws</th>
+                <th>Losts</th>
+                <th>Points</th>
+                <th>GF</th>
+                <th>GA</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let standing of standings">
+                <td>{{standing.position}}</td>
+                <td>{{standing.team}}</td>
+                <td>{{standing.overall.wins}}</td>
+                <td>{{standing.overall.draws}}</td>
+                <td>{{standing.overall.losts}}</td>
+                <td>{{standing.overall.points}}</td>
+                <td>{{standing.overall.scores}}</td>
+                <td>{{standing.overall.conceded}}</td>
+              </tr>
+              <tbody>
+            </table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Season Rounds">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered ">
+              <thead class="table-header">
+              <tr>
+                <th>Rounds</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let round of rounds">
+                <td>{{round.name}}</td>
+                <td>{{round.start_date}}</td>
+                <td>{{round.end_date}}</td>
+              </tr>
+              <tbody>
+            </table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Referees">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered ">
+              <thead class="table-header">
+              <tr>
+                <th>Name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let referee of referees">
+                <td>{{referee.name}} {{referee.surname}}</td>
+              </tr>
+              <tbody>
+            </table>
+          </div>
+        </mat-tab>
       </mat-tab-group>
     </div>
   </div>

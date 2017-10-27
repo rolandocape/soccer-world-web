@@ -15,6 +15,9 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
   public scorers: any = [];
   public selectedSeason = "15-16";
   public details = {};
+  public standings: any = [];
+  public rounds: any = [];
+  public referees: any = [];
 
   constructor(public dataService: SoccerdataService,
               private route: ActivatedRoute) {
@@ -27,12 +30,15 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
         .then(data => {
           this.details = data;
         });
-      this.dataService.loadSeasons()
+      this.dataService.loadSeasons(this.leagueSlug)
         .then(data => {
           this.seasons = data;
 
         });
-       this.getTopScorers(this.selectedSeason);
+      this.getTopScorers(this.selectedSeason);
+      this.getStandings(this.selectedSeason);
+      this.getRounds(this.selectedSeason);
+      this.getReferees(this.selectedSeason);
     });
   }
 
@@ -40,10 +46,32 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getTopScorers(selectedSeason){
+  getTopScorers(selectedSeason) {
     this.dataService.loadTopScorers(this.leagueSlug, selectedSeason)
-      .then( data => {
+      .then(data => {
         this.scorers = data;
       })
   }
+
+  getStandings(selectedSeason) {
+    this.dataService.loadStandings(this.leagueSlug, selectedSeason)
+      .then(data => {
+        this.standings = data;
+      })
+  }
+
+  getRounds(selectedSeason) {
+    this.dataService.loadRounds(this.leagueSlug, selectedSeason)
+      .then(data => {
+        this.rounds = data;
+      })
+  }
+
+  getReferees(selectedSeason) {
+    this.dataService.loadReferees(this.leagueSlug, selectedSeason)
+      .then(data => {
+        this.referees = data;
+      })
+  }
+
 }

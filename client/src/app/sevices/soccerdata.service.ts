@@ -58,9 +58,9 @@ export class SoccerdataService {
     });
   }
 
-  loadSeasons() {
+  loadSeasons(league_slug) {
     return new Promise(resolve => {
-      this.http.get('http://localhost:3000/api/seasons/serie-a')
+      this.http.get('http://localhost:3000/api/seasons/' + league_slug)
         .map(res => {
           if (res.status < 200 || res.status >= 300) {
             throw new Error('This request has failed' + res.status);
@@ -71,25 +71,83 @@ export class SoccerdataService {
         .subscribe(data => {
           this.data = data;
           resolve(this.data);
+          console.log(this.data);
         });
     });
   }
 
-  loadTopScorers(league_slug, season_slug){
+  loadTopScorers(league_slug, season_slug) {
     return new Promise(resolve => {
-      this.http.get('http://localhost:3000/api/' + league_slug + '/seasons/' + season_slug )
+      this.http.get('http://localhost:3000/api/' + league_slug + '/seasons/' + season_slug)
         .map(res => {
-          if(res.status < 200 || res.status >= 300){
+          if (res.status < 200 || res.status >= 300) {
             throw new Error('This request has failed' + res.status);
-          }else{
+          } else {
             return res.json();
           }
         })
-        .subscribe( data => {
+        .subscribe(data => {
           this.data = data;
           resolve(this.data);
+          console.log(this.data);
         });
     });
   }
+
+
+  loadStandings(league_slug, season_slug) {
+    return new Promise(resolve => {
+      this.http.get('http://localhost:3000/api/standings/' + league_slug + '/' + season_slug)
+        .map(res => {
+          if (res.status < 200 || res.status >= 300) {
+            throw new Error('This request has failed' + res.status);
+          } else {
+            return res.json();
+          }
+        })
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+          console.log(this.data);
+        });
+    });
+  }
+
+  loadRounds(league_slug, season_slug) {
+    return new Promise(resolve => {
+      this.http.get('http://localhost:3000/api/rounds/' + league_slug + '/' + season_slug)
+        .map(res => {
+          if (res.status < 200 || res.status >= 300) {
+            throw new Error('This request has failed' + res.status);
+          } else {
+            return res.json();
+          }
+        })
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+          console.log(this.data);
+        });
+    });
+  }
+
+  loadReferees(league_slug, season_slug) {
+    return new Promise(resolve => {
+      this.http.get('http://localhost:3000/api/referees/' + league_slug + '/' + season_slug)
+        .map(res => {
+          if (res.status < 200 || res.status >= 300) {
+            throw new Error('This request has failed' + res.status);
+          } else {
+            return res.json();
+          }
+        })
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+          console.log(this.data);
+        });
+    });
+  }
+
 
 }

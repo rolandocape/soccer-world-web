@@ -10,6 +10,9 @@ class Routes {
         app.use('/api/league/:league_slug', Routes.getLeague);
         app.use('/api/:league_slug/seasons/:season_slug', Routes.getLeagueScorers);
         app.use('/api/seasons/:league_slug', Routes.getSeasons);
+        app.use('/api/standings/:league_slug/:season_slug', Routes.getStandings);
+        app.use('/api/rounds/:league_slug/:season_slug', Routes.getRounds);
+        app.use('/api/referees/:league_slug/:season_slug', Routes.getReferees);
     }
 
 
@@ -119,37 +122,149 @@ class Routes {
             });
     }
 
-    static getSeasons(req, res){
-        db.seasons.find(function(err, seasons){
-            if(err){
+    static getSeasons(req, res) {
+        db.seasons.find(function (err, seasons) {
+            if (err) {
                 res.send(err);
-            }else{
-                if(seasons.length === 0){
+            } else {
+                if (seasons.length === 0) {
                     request({
                         url: URL + 'leagues/' + req.params.league_slug + '/seasons',
                         headers: {
                             'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
                             'Accept': 'application/json'
                         }
-                    }, (error, response)=>{
-                        if(error){
+                    }, (error, response) => {
+                        if (error) {
                             throw new Error(error);
                         }
                         const arrayOfSeasons = JSON.parse(response.body).data.seasons;
-                        db.seasons.save(arrayOfSeasons, function(err, result){
-                            if(err){
+                        db.seasons.save(arrayOfSeasons, function (err, result) {
+                            if (err) {
                                 res.send(err);
-                            }else{
+                            } else {
                                 res.json(result);
                             }
                         });
                     })
-                }else{
+                } else {
                     res.json(seasons);
                 }
             }
         });
     }
+
+    static getStandings(req, res) {
+        const key = req.params.league_slug + req.params.season_slug;
+
+        db.standings.findOne({key},
+            function (err, standings) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!standings || !standings.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/standings',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfStandings = JSON.parse(response.body).data;
+                            arrayOfStandings.key = key;
+
+                            db.standings.save(arrayOfStandings, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.standings)
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(standings.standings);
+                    }
+                }
+            });
+    }
+
+    static getRounds(req, res) {
+        const key = req.params.league_slug + req.params.season_slug;
+
+        db.rounds.findOne({key},
+            function (err, rounds) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!rounds || !rounds.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/rounds',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfRounds = JSON.parse(response.body).data;
+                            arrayOfRounds.key = key;
+
+                            db.rounds.save(arrayOfRounds, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.rounds)
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(rounds.rounds);
+                    }
+                }
+            });
+    }
+
+    static getReferees(req, res) {
+        const key = req.params.league_slug + req.params.season_slug;
+
+        db.referees.findOne({key},
+            function (err, referees) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!referees || !referees.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/referees',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfReferees = JSON.parse(response.body).data;
+                            arrayOfReferees.key = key;
+
+                            db.referees.save(arrayOfReferees, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.referees)
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(referees.referees);
+                    }
+                }
+            });
+    }
+
 
 }
 
