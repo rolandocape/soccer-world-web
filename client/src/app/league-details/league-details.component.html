@@ -53,7 +53,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let standing of standings">
+              <tr *ngFor="let standing of standings" (click)="goToTeamDetails(standing)">
                 <td>{{standing.position}}</td>
                 <td>{{standing.team}}</td>
                 <td>{{standing.overall.wins}}</td>

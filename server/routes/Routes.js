@@ -13,6 +13,8 @@ class Routes {
         app.use('/api/standings/:league_slug/:season_slug', Routes.getStandings);
         app.use('/api/rounds/:league_slug/:season_slug', Routes.getRounds);
         app.use('/api/referees/:league_slug/:season_slug', Routes.getReferees);
+        app.use('/api/teams/:league_slug/:season_slug/:team_name', Routes.getTeams);
+        // app.use('/api/team/:league_slug/:season_slug/:team_slug', Routes.getTeam);
     }
 
 
@@ -260,6 +262,44 @@ class Routes {
                         })
                     } else {
                         res.json(referees.referees);
+                    }
+                }
+            });
+    }
+
+    static getTeams(req, res) {
+        const key = req.params.league_slug + req.params.season_slug;
+        const teamName = req.params.team_name;
+
+        db.teams.findOne({key},
+            function (err, teams) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!teams || !teams.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/teams',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfTeams = JSON.parse(response.body).data;
+                            arrayOfTeams.key = key;
+
+                            db.teams.save(arrayOfTeams, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.teams.filter(team => (team.name === teamName)));
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(teams.teams.filter(team => (team.name === teamName)));
                     }
                 }
             });

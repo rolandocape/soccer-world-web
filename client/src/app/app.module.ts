@@ -10,12 +10,15 @@ import {MatSidenavModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material';
 
 import {AppComponent} from './app.component';
-import {SoccerdataService} from "./sevices/soccerdata.service";
+import {SoccerdataService} from "./services/soccerdata.service/soccerdata.service";
 import {FooterComponent} from './shared/layout/footer/footer.component';
 import {HeaderComponent} from './shared/layout/header/header.component';
 import {SidenavComponent} from "./shared/layout/sidenav/sidenav.component";
 import {HomeModule} from './home/home.module';
 import {LeagueDetailsModule} from "./league-details/league-details.module";
+import { PlayersComponent } from './players/players.component';
+import { TeamsComponent } from './teams/teams.component';
+import {TeamsModule} from "./teams/teams.module";
 
 
 // const routes: Routes = [
@@ -32,7 +35,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    SidenavComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     LeagueDetailsModule,
     HomeModule,
     rootRouting,
+    TeamsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

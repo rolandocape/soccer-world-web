@@ -7,7 +7,7 @@ import {MatTabsModule} from '@angular/material';
 import {MatSelectModule} from '@angular/material';
 
 import {LeagueDetailsComponent} from './league-details.component';
-import {SoccerdataService} from "../sevices/soccerdata.service";
+import {SoccerdataService} from "../services/soccerdata.service/soccerdata.service";
 
 const leagueDetailsRouting: ModuleWithProviders = RouterModule.forChild([{
   path: 'league-details/:league_slug',

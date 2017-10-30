@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {SoccerdataService} from "../sevices/soccerdata.service";
-import {ActivatedRoute} from '@angular/router';
+import {SoccerdataService} from "../services/soccerdata.service/soccerdata.service";
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-league-details',
@@ -20,7 +20,8 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
   public referees: any = [];
 
   constructor(public dataService: SoccerdataService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -73,5 +74,11 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
         this.referees = data;
       })
   }
+
+  goToTeamDetails(aTeam){
+    let teamName = aTeam.team;
+    this.router.navigate(['/team',{league: this.leagueSlug, season: this.selectedSeason, nameTeam: teamName}], {relativeTo: this.route});
+  }
+
 
 }

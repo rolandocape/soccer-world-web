@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SoccerdataService} from "../sevices/soccerdata.service";
+import {SoccerdataService} from "../services/soccerdata.service/soccerdata.service";
 import { Router } from "@angular/router";
 
 

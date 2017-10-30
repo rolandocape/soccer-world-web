@@ -6,7 +6,7 @@ import {MatListModule} from '@angular/material';
 
 
 import {HomeComponent} from './home.component';
-import {SoccerdataService} from "../sevices/soccerdata.service";
+import {SoccerdataService} from "../services/soccerdata.service/soccerdata.service";
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
   {
