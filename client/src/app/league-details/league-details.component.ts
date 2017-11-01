@@ -80,5 +80,9 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/team',{league: this.leagueSlug, season: this.selectedSeason, nameTeam: teamName}], {relativeTo: this.route});
   }
 
+  goToRoundMatches(round){
+    let roundSlug = round.round_slug;
+    this.router.navigate(['/round_matches', {league: this.leagueSlug, season: this.selectedSeason, round_slug: roundSlug }], {relativeTo:this.route});
+  }
 
 }

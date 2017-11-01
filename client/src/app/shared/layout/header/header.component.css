@@ -5,9 +5,10 @@
 /*imporve title in the middle*/
 .title-style {
   color: white;
-  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
-  font-style: italic;
-  margin-left: 45%;
+  text-align: center;
+  /*font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;*/
+  /*font-style: italic;*/
+  /*margin-left: 45%;*/
   font-size: xx-large;
 }
 

@@ -14,7 +14,7 @@ class Routes {
         app.use('/api/rounds/:league_slug/:season_slug', Routes.getRounds);
         app.use('/api/referees/:league_slug/:season_slug', Routes.getReferees);
         app.use('/api/teams/:league_slug/:season_slug/:team_name', Routes.getTeams);
-        // app.use('/api/team/:league_slug/:season_slug/:team_slug', Routes.getTeam);
+        app.use('/api/roundMatches/:league_slug/:season_slug/:round_slug', Routes.getRoundMatches);
     }
 
 
@@ -300,6 +300,44 @@ class Routes {
                         })
                     } else {
                         res.json(teams.teams.filter(team => (team.name === teamName)));
+                    }
+                }
+            });
+    }
+
+
+    static getRoundMatches(req, res) {
+        const key = req.params.league_slug + req.params.season_slug + req.params.round_slug;
+
+        db.round_matches.findOne({key},
+            function (err, roundMatches) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!roundMatches || !roundMatches.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/rounds/' + req.params.round_slug + '/matches',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfMatches = JSON.parse(response.body).data;
+                            arrayOfMatches.key = key;
+
+                            db.round_matches.save(arrayOfMatches, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.matches);
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(roundMatches.matches);
                     }
                 }
             });

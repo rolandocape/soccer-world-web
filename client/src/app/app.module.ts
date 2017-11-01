@@ -16,9 +16,8 @@ import {HeaderComponent} from './shared/layout/header/header.component';
 import {SidenavComponent} from "./shared/layout/sidenav/sidenav.component";
 import {HomeModule} from './home/home.module';
 import {LeagueDetailsModule} from "./league-details/league-details.module";
-import { PlayersComponent } from './players/players.component';
-import { TeamsComponent } from './teams/teams.component';
 import {TeamsModule} from "./teams/teams.module";
+import {RoundMatchesModule} from "./round-matches/round-matches.module";
 
 
 // const routes: Routes = [
@@ -35,7 +34,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    SidenavComponent
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +43,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     HomeModule,
     rootRouting,
     TeamsModule,
+    RoundMatchesModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

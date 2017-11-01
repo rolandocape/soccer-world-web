@@ -4,6 +4,7 @@
 
 
   <h1 class="team_font" *ngFor="let teamDetail of teamDetails">
+    <img src="{{teamDetail.flag}}" alt="Responsive image" class="img-circle; img_style">
     {{teamDetail.name}}
   </h1>
   <ul *ngFor="let teamDetail of teamDetails">

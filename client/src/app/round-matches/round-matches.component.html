@@ -1,0 +1,14 @@
+<nav class="navbar navbar-default nav-style">
+  <div class="container-fluid">
+    <div class="navbar-header; text-style">
+      <h1 >Round Matches</h1>
+    </div>
+  </div>
+</nav>
+<ul class="list-group; matches_rows" *ngFor="let match of matches">
+  <li class="list-group-item col-md-12"> <a class="col-md-2">{{match.home.team}} </a> <span class="col-md-2"> {{match.home.goals}} - {{match.away.goals}} </span> <a class="col-md-2">{{match.away.team}}</a> <span class="col-md-6">{{match.date_match}}</span></li>
+</ul>
+
+
+
+
