@@ -76,13 +76,20 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
   }
 
   goToTeamDetails(aTeam){
-    let teamName = aTeam.team;
-    this.router.navigate(['/team',{league: this.leagueSlug, season: this.selectedSeason, nameTeam: teamName}], {relativeTo: this.route});
+    this.router.navigateByUrl('/team/' + this.leagueSlug + '/' + this.selectedSeason + '/' + aTeam.team  + '/' + aTeam.team_identifier);
   }
 
+  // goToRoundMatches(round){
+  //   let roundSlug = round.round_slug;
+  //   this.router.navigate(['/round_matches', {league: this.leagueSlug, season: this.selectedSeason, round_slug: roundSlug }], {relativeTo:this.route});
+  // }
+
   goToRoundMatches(round){
-    let roundSlug = round.round_slug;
-    this.router.navigate(['/round_matches', {league: this.leagueSlug, season: this.selectedSeason, round_slug: roundSlug }], {relativeTo:this.route});
+    this.router.navigateByUrl('/round_matches/' + this.leagueSlug + '/' + this.selectedSeason + '/' + round.round_slug);
+  }
+
+  goToPlayerComponent(player){
+    this.router.navigateByUrl('/player/' + this.leagueSlug + '/' + this.selectedSeason + '/' + player.player_identifier );
   }
 
 }

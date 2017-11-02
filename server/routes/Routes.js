@@ -15,6 +15,9 @@ class Routes {
         app.use('/api/referees/:league_slug/:season_slug', Routes.getReferees);
         app.use('/api/teams/:league_slug/:season_slug/:team_name', Routes.getTeams);
         app.use('/api/roundMatches/:league_slug/:season_slug/:round_slug', Routes.getRoundMatches);
+        app.use('/api/teamPlayers/:league_slug/:season_slug/:team_slug', Routes.getTeamPlayers);
+        app.use('/api/teamMatches/:league_slug/:season_slug/:team_identifier', Routes.getTeamMatches);
+        app.use('/api/player/:league_slug/:season_slug/:player_identifier', Routes.getPlayer);
     }
 
 
@@ -343,7 +346,95 @@ class Routes {
             });
     }
 
+    static getTeamPlayers(req, res) {
+        const key = req.params.league_slug + req.params.season_slug + req.params.team_slug;
 
+        db.team_players.findOne({key},
+            function (err, teamPlayers) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!teamPlayers || !teamPlayers.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/teams/' + req.params.team_slug + '/players',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfPlayers = JSON.parse(response.body).data;
+                            arrayOfPlayers.key = key;
+
+                            db.team_players.save(arrayOfPlayers, function (err, result) {
+                                if (err) {
+                                    res.send(err)
+                                } else {
+                                    res.json(result.players);
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(teamPlayers.players);
+                    }
+                }
+            });
+    }
+
+    static getTeamMatches(req, res) {
+        const key = req.params.league_slug + req.params.season_slug + req.params.team_identifier;
+
+        db.team_matches.findOne({key},
+            function (err, teamMatches) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!teamMatches || !teamMatches.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/rounds?team_identifier=' + req.params.team_identifier,
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfMatches = JSON.parse(response.body).data;
+                            arrayOfMatches.key = key;
+
+                            db.team_matches.save(arrayOfMatches, function (err, result) {
+                                if (err) {
+                                    res.send(err)
+                                } else {
+                                    res.json(result.rounds);
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(teamMatches.rounds);
+                    }
+                }
+            });
+    }
+
+    static getPlayer(req, res) {
+        const key = req.params.league_slug + req.params.season_slug;
+        const playerIdentifier = req.params.player_identifier;
+
+        db.topscorers.findOne({key},
+            function (err, topscorersList) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (topscorersList.key) {
+                        res.json(topscorersList.topscorers.filter(player => (player.player_identifier === playerIdentifier)));
+                    }
+                }
+            });
+    }
 }
 
 

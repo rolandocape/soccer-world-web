@@ -25,7 +25,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let scorer of scorers">
+              <tr *ngFor="let scorer of scorers" (click)="goToPlayerComponent(scorer)">
                 <td>{{scorer.fullname}}</td>
                 <td>{{scorer.nationality}}</td>
                 <td>{{scorer.team}}</td>

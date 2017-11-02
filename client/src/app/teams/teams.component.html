@@ -1,14 +1,30 @@
 
-<div class="container">
+<nav class="navbar navbar-default nav-style">
+  <div class="container-fluid">
+    <div class="navbar-header; text-style" *ngFor="let teamDetail of teamDetails">
+      <h1><img src="{{teamDetail.flag}}" alt="Responsive image" class="img-circle; img_style">{{teamDetail.name}}</h1>
+    </div>
+    <div>
+      <mat-tab-group >
+        <mat-tab label="Team Players">
+          <ul *ngFor="let teamPlayer of teamPlayers">
+            <li>{{teamPlayer.name}}</li>
+          </ul>
+        </mat-tab>
+        <mat-tab label="Season Matches">
+          <ul *ngFor="let teamMatch of teamMatches">
+            <li>{{teamMatch.match_slug}}</li>
+          </ul>
+        </mat-tab>
+        <mat-tab label="Team Manager">
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</nav>
 
 
 
-  <h1 class="team_font" *ngFor="let teamDetail of teamDetails">
-    <img src="{{teamDetail.flag}}" alt="Responsive image" class="img-circle; img_style">
-    {{teamDetail.name}}
-  </h1>
-  <ul *ngFor="let teamDetail of teamDetails">
-    <li>Hello</li>
-  </ul>
-</div>
+
+
 

@@ -1,3 +1,15 @@
-<p>
-  players works!
-</p>
+<nav class="navbar navbar-default nav-style">
+  <div class="container-fluid">
+    <div class="navbar-header; text-style" *ngFor="let playerDetail of playerDetails">
+      <h1>{{playerDetail.fullname}}</h1>
+    </div>
+  </div>
+</nav>
+
+<ul *ngFor="let playerDetail of playerDetails">
+  <li class="col-md-12">
+    <span class="col-md-4">Nationality: {{playerDetail.nationality}} </span>
+    <span class="col-md-4">Current Club: {{playerDetail.team}}  </span>
+    <span class="col-md-4"> Position: {{playerDetail.position}} </span>
+  </li>
+</ul>

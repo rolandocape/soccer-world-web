@@ -7,8 +7,7 @@ import {RoundMatchesService} from "../services/round-matches.service/round-match
 
 const roundMatchesRouting: ModuleWithProviders = RouterModule.forChild([
   {
-    // path: 'league-details/:league_slug/teams/:team_name',
-    path: 'round_matches',
+    path: 'round_matches/:league/:season/:round_slug',
     component: RoundMatchesComponent,
   }
 ]);

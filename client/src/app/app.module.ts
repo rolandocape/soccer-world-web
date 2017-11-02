@@ -18,6 +18,7 @@ import {HomeModule} from './home/home.module';
 import {LeagueDetailsModule} from "./league-details/league-details.module";
 import {TeamsModule} from "./teams/teams.module";
 import {RoundMatchesModule} from "./round-matches/round-matches.module";
+import {PlayersModule} from "./players/players.module";
 
 
 // const routes: Routes = [
@@ -44,6 +45,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     rootRouting,
     TeamsModule,
     RoundMatchesModule,
+    PlayersModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

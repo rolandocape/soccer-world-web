@@ -12,7 +12,11 @@ export class TeamsComponent implements OnInit, OnDestroy {
   private leagueSlug: any;
   private seasonSlug: any;
   private teamName: any;
-  public teamDetails: {};
+  public teamDetails: any;
+  private teamIdentifier : any;
+  private teamSlug: any;
+  public teamMatches: any = [];
+  public teamPlayers: any = [];
 
   constructor(public teamService: TeamsService, private route: ActivatedRoute) {
   }
@@ -22,10 +26,20 @@ export class TeamsComponent implements OnInit, OnDestroy {
       this.leagueSlug = this.route.snapshot.params['league'];
       this.seasonSlug = this.route.snapshot.params['season'];
       this.teamName = this.route.snapshot.params['nameTeam'];
+      this.teamSlug = this.teamName.toLowerCase();
+      this.teamIdentifier = this.route.snapshot.params['team_identifier'];
 
       this.teamService.loadTeam(this.leagueSlug, this.seasonSlug, this.teamName)
         .then(data => {
           this.teamDetails = data;
+        });
+      this.teamService.loadTeamMatches(this.leagueSlug, this.seasonSlug, this.teamIdentifier)
+        .then(data =>{
+          this.teamMatches = data;
+        });
+      this.teamService.loadTeamPlayers(this.leagueSlug, this.seasonSlug, this.teamSlug)
+        .then(data =>{
+          this.teamPlayers = data;
         });
     });
   }
