@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {RoundMatchesService} from "../services/round-matches.service/round-matches.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-round-matches',
@@ -15,7 +15,7 @@ export class RoundMatchesComponent implements OnInit, OnDestroy {
   private roundSlug: any;
   public matches: any = [];
 
-  constructor(public matchesService: RoundMatchesService, private route: ActivatedRoute) {
+  constructor(public matchesService: RoundMatchesService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -33,6 +33,10 @@ export class RoundMatchesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  goToMatchComponent(match){
+    this.router.navigateByUrl('match/' + this.leagueSlug + '/' + this.seasonSlug + '/' + this.roundSlug + '/' + match.match_slug);
   }
 
 }

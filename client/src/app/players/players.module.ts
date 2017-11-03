@@ -7,7 +7,7 @@ import {PlayersService} from "../services/players.service/players.service";
 
 const playersRouting: ModuleWithProviders = RouterModule.forChild([
   {
-    path: 'player/:league_slug/:season_slug/:player_identifier',
+    path: 'player/:league_slug/:season_slug/:team/:player_identifier',
     component: PlayersComponent,
   }
 ]);

@@ -18,6 +18,8 @@ class Routes {
         app.use('/api/teamPlayers/:league_slug/:season_slug/:team_slug', Routes.getTeamPlayers);
         app.use('/api/teamMatches/:league_slug/:season_slug/:team_identifier', Routes.getTeamMatches);
         app.use('/api/player/:league_slug/:season_slug/:player_identifier', Routes.getPlayer);
+        app.use('/api/teamPlayer/:league_slug/:season_slug/:team_slug/:player_identifier', Routes.getPlayerFromTeam);
+        app.use('/api/match/:league_slug/:season_slug/:round_slug/:match_slug', Routes.getSpecifiedMatch);
     }
 
 
@@ -431,6 +433,83 @@ class Routes {
                 } else {
                     if (topscorersList.key) {
                         res.json(topscorersList.topscorers.filter(player => (player.player_identifier === playerIdentifier)));
+                    }
+                }
+            });
+    }
+
+    static getPlayerFromTeam(req, res) {
+        const key = req.params.league_slug + req.params.season_slug + req.params.team_slug;
+        const playerIdentifier = req.params.player_identifier;
+
+        db.team_players.findOne({key},
+            function (err, teamPlayers) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!teamPlayers || !teamPlayers.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/teams/' + req.params.team_slug + '/players',
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const arrayOfPlayers = JSON.parse(response.body).data;
+                            arrayOfPlayers.key = key;
+
+                            db.team_players.save(arrayOfPlayers, function (err, result) {
+                                if (err) {
+                                    res.send(err)
+                                } else {
+                                    res.json(result.players.filter(player => (player.identifier === playerIdentifier)));
+                                }
+                            });
+                        })
+                    } else {
+                        res.json(teamPlayers.players.filter(player => (player.identifier === playerIdentifier)));
+                    }
+                }
+            });
+    }
+
+    static getSpecifiedMatch(req, res) {
+        //key the parameters passed in the request
+        const key = req.params.league_slug + req.params.season_slug + req.params.round_slug + req.params.match_slug;
+
+        db.match.findOne({key},
+            function (err, match) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!match || !match.key) {
+                        request({
+                            url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/rounds/' + req.params.round_slug + '/matches/' + req.params.match_slug,
+                            headers: {
+                                'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                'Accept': 'application/json'
+                            }
+                        }, (error, response) => {
+                            if (error) {
+                                throw new Error(error);
+                            }
+                            const matchDetails = JSON.parse(response.body).data;
+                            matchDetails.key = key;
+
+                            db.match.save(matchDetails, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.json(result.matches);
+                                }
+                            });
+
+                        })
+                    } else {
+                        res.json(match.matches);
                     }
                 }
             });

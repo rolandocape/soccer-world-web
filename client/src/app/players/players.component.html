@@ -13,3 +13,11 @@
     <span class="col-md-4"> Position: {{playerDetail.position}} </span>
   </li>
 </ul>
+
+<ul *ngFor="let teamPlayerDetail of teamPlayerDetails">
+  <li class="col-md-12">
+    <span class="col-md-4">Birthday: {{teamPlayerDetail.birthday}} </span>
+    <span class="col-md-4">Birth Place: {{teamPlayerDetail.birthplace}}  </span>
+    <span class="col-md-4"> National Team: {{teamPlayerDetail.national_team}} </span>
+  </li>
+</ul>

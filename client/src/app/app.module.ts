@@ -4,7 +4,7 @@ import {HttpModule} from "@angular/http";
 import {RouterModule, Routes} from '@angular/router';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material';
+import {MatCheckboxModule, MatToolbarModule} from '@angular/material';
 import {MatSidenavModule} from '@angular/material';
 
 import {MatGridListModule} from '@angular/material';
@@ -19,6 +19,7 @@ import {LeagueDetailsModule} from "./league-details/league-details.module";
 import {TeamsModule} from "./teams/teams.module";
 import {RoundMatchesModule} from "./round-matches/round-matches.module";
 import {PlayersModule} from "./players/players.module";
+import {MatchModule} from "./match/match.module";
 
 
 // const routes: Routes = [
@@ -46,6 +47,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     TeamsModule,
     RoundMatchesModule,
     PlayersModule,
+    MatchModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

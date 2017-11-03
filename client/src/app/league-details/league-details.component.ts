@@ -89,7 +89,7 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
   }
 
   goToPlayerComponent(player){
-    this.router.navigateByUrl('/player/' + this.leagueSlug + '/' + this.selectedSeason + '/' + player.player_identifier );
+    this.router.navigateByUrl('/player/' + this.leagueSlug + '/' + this.selectedSeason + '/' + player.team + '/' + player.player_identifier );
   }
 
 }
