@@ -13,7 +13,7 @@ export class LeagueDetailsComponent implements OnInit, OnDestroy {
   private subscription: any;
   public seasons: any;
   public scorers: any = [];
-  public selectedSeason = "15-16";
+  public selectedSeason = "17-18";
   public details = {};
   public standings: any = [];
   public rounds: any = [];

@@ -11,32 +11,6 @@
   <div class="row">
     <div class="col-mat-12">
       <mat-tab-group>
-        <mat-tab label="Top Scorers">
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered ">
-              <thead class="table-header">
-              <tr>
-                <th>Name</th>
-                <th>Nationality</th>
-                <th>Team</th>
-                <th>Goals</th>
-                <th>Penalties</th>
-                <th>Matches</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let scorer of scorers" (click)="goToPlayerComponent(scorer)">
-                <td>{{scorer.fullname}}</td>
-                <td>{{scorer.nationality}}</td>
-                <td>{{scorer.team}}</td>
-                <td>{{scorer.goals}}</td>
-                <td>{{scorer.penalties}}</td>
-                <td>{{scorer.matches}}</td>
-              </tr>
-              <tbody>
-            </table>
-          </div>
-        </mat-tab>
         <mat-tab label="Team Standings">
           <div class="table-responsive">
             <table class="table table-hover table-bordered ">
@@ -62,6 +36,32 @@
                 <td>{{standing.overall.points}}</td>
                 <td>{{standing.overall.scores}}</td>
                 <td>{{standing.overall.conceded}}</td>
+              </tr>
+              <tbody>
+            </table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Top Scorers">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered ">
+              <thead class="table-header">
+              <tr>
+                <th>Name</th>
+                <th>Nationality</th>
+                <th>Team</th>
+                <th>Goals</th>
+                <th>Penalties</th>
+                <th>Matches</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let scorer of scorers" (click)="goToPlayerComponent(scorer)">
+                <td>{{scorer.fullname}}</td>
+                <td>{{scorer.nationality}}</td>
+                <td>{{scorer.team}}</td>
+                <td>{{scorer.goals}}</td>
+                <td>{{scorer.penalties}}</td>
+                <td>{{scorer.matches}}</td>
               </tr>
               <tbody>
             </table>

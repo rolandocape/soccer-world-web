@@ -3,7 +3,6 @@
 
 }
 
-
 .img_style{
   height: 55px;
   margin-right: 20px;
@@ -12,9 +11,15 @@
 .nav-style{
   background-color: #2c2c2c;
   color: white;
+  margin-bottom: 0;
 }
+
+ .mat-tab-header{
+   background-color: #2c2c2c;;
+ }
 
 .text-style{
   text-align: center;
 }
+
 
