@@ -14,6 +14,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+
 routes.setRoutes(app);
 
 app.listen(port, function () {

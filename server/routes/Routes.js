@@ -1,25 +1,28 @@
 const request = require('request');
 const URL = 'https://sportsop-soccer-sports-open-data-v1.p.mashape.com/v1/';
 const mongojs = require('mongojs');
-const db = mongojs('mongodb://rolando:rolando@ds117830.mlab.com:17830/soccer_app_db', ['leagues']);
+const User = require('../Model/User');
 
+const db = mongojs('mongodb://rolando:rolando@ds117830.mlab.com:17830/soccer_app_db', ['leagues']);
 
 class Routes {
     static setRoutes(app) {
-        app.use('/api/leagues', Routes.getLeagues);
-        app.use('/api/league/:league_slug', Routes.getLeague);
-        app.use('/api/:league_slug/seasons/:season_slug', Routes.getLeagueScorers);
-        app.use('/api/seasons/:league_slug', Routes.getSeasons);
-        app.use('/api/standings/:league_slug/:season_slug', Routes.getStandings);
-        app.use('/api/rounds/:league_slug/:season_slug', Routes.getRounds);
-        app.use('/api/referees/:league_slug/:season_slug', Routes.getReferees);
-        app.use('/api/teams/:league_slug/:season_slug/:team_name', Routes.getTeams);
-        app.use('/api/roundMatches/:league_slug/:season_slug/:round_slug', Routes.getRoundMatches);
-        app.use('/api/teamPlayers/:league_slug/:season_slug/:team_slug', Routes.getTeamPlayers);
-        app.use('/api/teamMatches/:league_slug/:season_slug/:team_identifier', Routes.getTeamMatches);
-        app.use('/api/player/:league_slug/:season_slug/:player_identifier', Routes.getPlayer);
-        app.use('/api/teamPlayer/:league_slug/:season_slug/:team_slug/:player_identifier', Routes.getPlayerFromTeam);
-        app.use('/api/match/:league_slug/:season_slug/:round_slug/:match_slug', Routes.getSpecifiedMatch);
+        app.get('/api/leagues', Routes.getLeagues);
+        app.get('/api/league/:league_slug', Routes.getLeague);
+        app.get('/api/:league_slug/seasons/:season_slug', Routes.getLeagueScorers);
+        app.get('/api/seasons/:league_slug', Routes.getSeasons);
+        app.get('/api/standings/:league_slug/:season_slug', Routes.getStandings);
+        app.get('/api/rounds/:league_slug/:season_slug', Routes.getRounds);
+        app.get('/api/referees/:league_slug/:season_slug', Routes.getReferees);
+        app.get('/api/teams/:league_slug/:season_slug/:team_name', Routes.getTeams);
+        app.get('/api/roundMatches/:league_slug/:season_slug/:round_slug', Routes.getRoundMatches);
+        app.get('/api/teamPlayers/:league_slug/:season_slug/:team_slug', Routes.getTeamPlayers);
+        app.get('/api/teamMatches/:league_slug/:season_slug/:team_identifier', Routes.getTeamMatches);
+        app.get('/api/player/:league_slug/:season_slug/:player_identifier', Routes.getPlayer);
+        app.get('/api/teamPlayer/:league_slug/:season_slug/:team_slug/:player_identifier', Routes.getPlayerFromTeam);
+        app.get('/api/match/:league_slug/:season_slug/:round_slug/:match_slug', Routes.getSpecifiedMatch);
+        app.post('/register', Routes.registerUser);
+        app.post('/login', Routes.login);
     }
 
 
@@ -514,6 +517,53 @@ class Routes {
                 }
             });
     }
+
+    static registerUser(req, res) {
+
+        const {username, password, firstname, lastname} = req.body;
+
+        if (username && password && firstname && lastname) {
+            db.users.findOne({username}, (err, user) => {
+                if (err) {
+                    res.send(err);
+                }
+                if (user) {
+                    res.status(500);
+                    res.json({"error": "username already in use"})
+                } else {
+                    db.users.save(new User(username, password, firstname, lastname), (err, result) => {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.json(result);
+                        }
+                    });
+                }
+            });
+        } else {
+            res.status(400);
+            res.json({"error": "Invalid Data"});
+        }
+    }
+
+
+    static login(req, res) {
+        const {username, password} = req.body;
+
+        db.users.findOne({username, password}, (err, user) => {
+            if (err) {
+                res.send(err);
+            }
+            if (!user) {
+                res.status(400);
+                res.json({"error": "Invalid username or password"})
+            } else {
+                res.status(200).send();
+            }
+        });
+    }
+
+
 }
 
 
