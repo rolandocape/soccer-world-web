@@ -23,6 +23,7 @@ class Routes {
         app.get('/api/match/:league_slug/:season_slug/:round_slug/:match_slug', Routes.getSpecifiedMatch);
         app.post('/register', Routes.registerUser);
         app.post('/login', Routes.login);
+        app.get('/api/manager/:league_slug/:season_slug/:team_slug', Routes.getTeamManager);
     }
 
 
@@ -546,7 +547,6 @@ class Routes {
         }
     }
 
-
     static login(req, res) {
         const {username, password} = req.body;
 
@@ -558,9 +558,48 @@ class Routes {
                 res.status(400);
                 res.json({"error": "Invalid username or password"})
             } else {
+                res.json(user);
                 res.status(200).send();
             }
         });
+    }
+
+    static getTeamManager(req, res) {
+        const key = req.params.league_slug + req.params.season_slug + req.params.team_slug;
+
+        db.managers.findOne({key},
+            function (err, manager) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (!manager || !manager.key) {
+                        request({
+                                url: URL + 'leagues/' + req.params.league_slug + '/seasons/' + req.params.season_slug + '/teams/' + req.params.team_slug + '/managers',
+                                headers: {
+                                    'X-Mashape-Key': 'x2l0pN8e5Mmsh5YEdqH6UxwP8CX0p11iro6jsnufrIxDLIu5mN',
+                                    'Accept': 'application/json'
+                                }
+                            }, (error, response) => {
+                                if (error) {
+                                    throw new Error(error);
+                                }
+                                const managerDetails = JSON.parse(response.body).data;
+                                managerDetails.key = key;
+
+                                db.managers.save(managerDetails, function (error, result) {
+                                    if (error) {
+                                        res.send(error);
+                                    } else {
+                                        res.json(result.managers);
+                                    }
+                                });
+                            }
+                        )
+                    } else {
+                        res.json(manager.managers);
+                    }
+                }
+            });
     }
 
 

@@ -31,6 +31,15 @@
   transition: 0.4s;
 }
 
+.login-button{
+  cursor: pointer;
+  margin-left: 400px;
+  background-color: #2c2c2c;
+  padding: 10px 15px 10px 15px;
+
+
+}
+
 .change .bar1 {
   -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
   transform: rotate(-45deg) translate(-9px, 6px) ;

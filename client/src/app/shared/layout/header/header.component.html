@@ -3,22 +3,105 @@
     <div class="navbar-header; title-style">
       <h1>Soccer World</h1>
     </div>
-    <div>
-      <a class="hamburger" (click)="toogleNav()">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </a>
-      <ul class="nav nav-tabs tabs-style">
-        <li role="presentation"><a class="tabs-text" href="#/league-details/bundesliga">Bundesliga</a></li>
-        <li role="presentation"><a class="tabs-text" href="#/league-details/liga">Liga</a></li>
-        <li role="presentation"><a class="tabs-text" href="#/league-details/ligue1">Ligue 1</a></li>
-        <li role="presentation"><a class="tabs-text" href="#/league-details/premier-league">Premier League</a></li>
-        <li role="presentation"><a class="tabs-text" href="#/league-details/serie-a">Serie A</a></li>
-        <li role="presentation"><a class="tabs-text" href="#/league-details/serie-b">Serie B</a></li>
+    <a class="hamburger" (click)="toogleNav()">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </a>
+    <ul class="nav nav-tabs tabs-style">
+      <li role="presentation"><a class="tabs-text" href="#/league-details/bundesliga">Bundesliga</a></li>
+      <li role="presentation"><a class="tabs-text" href="#/league-details/liga">Liga</a></li>
+      <li role="presentation"><a class="tabs-text" href="#/league-details/ligue1">Ligue 1</a></li>
+      <li role="presentation"><a class="tabs-text" href="#/league-details/premier-league">Premier League</a></li>
+      <li role="presentation"><a class="tabs-text" href="#/league-details/serie-a">Serie A</a></li>
+      <li role="presentation"><a class="tabs-text" href="#/league-details/serie-b">Serie B</a></li>
+      <li role="presentation"><button class ="button btn-primary login-button" (click)="openLoginModal()">Login</button></li>
+    </ul>
 
-      </ul>
-    </div>
+    <popup #popup1>
+      <!--in the input, id is used for label, the ngModel value is used for the validations-->
+      <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': loginForm.submitted && !usernameLogin.valid }">
+          <label for="usernameLogin">Username</label>
+          <input type="text" class="form-control"
+                 name="usernameLogin"
+                 id="usernameLogin"
+                 placeholder="Enter username"
+                 [(ngModel)]="model1.usernameLogin"
+                 #usernameLogin = "ngModel"
+                 required/>
+          <div *ngIf="loginForm.submitted && !usernameLogin.valid" class="help-block">Username is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': loginForm.submitted && !passwordLogin.valid }" >
+          <label for="passwordLogin">Password</label>
+          <input type="password" class="form-control"
+                 name="passwordLogin"
+                 id="passwordLogin"
+                 placeholder="Password"
+                 [(ngModel)]="model1.passwordLogin"
+                 #passwordLogin = "ngModel"
+                 required/>
+          <div *ngIf="loginForm.submitted && !passwordLogin.valid" class="help-block">Password is required</div>
+        </div>
+        <div class="form-group">
+          <button type="submit" [disabled]="!loginForm.form.valid" class="btn btn-primary">Login</button>
+          <a (click)="goToRegister()" class="btn btn-link">Register</a>
+        </div>
+      </form>
+    </popup>
+
+    <popup #popup2>
+      <form (ngSubmit)="register()" #registerForm="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{'has-error': registerForm.submitted && !firstname.valid }">
+          <label for="firstname">First Name</label>
+          <input type="text" class="form-control"
+                 name="firstname"
+                 id="firstname"
+                 placeholder="Enter your first name"
+                 [(ngModel)] = "model2.firstname"
+                 #firstname = "ngModel"
+                 required/>
+          <div *ngIf="registerForm.submitted && !fistname.valid" class="help-block">First name is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': registerForm.submitted && !lastname.valid}">
+          <label for="lastname">Last Name</label>
+          <input type="text" class="form-control"
+                 name="lastname"
+                 id="lastname"
+                 placeholder="Enter your last name"
+                 [(ngModel)]="model2.lastname"
+                 #lastname = "ngModel"
+                 required>
+          <div *ngIf="registerForm.submitted && !lastname.valid" class="help-block">Last name is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': registerForm.submitted && !usernameRegister.valid}">
+          <label for="usernameRegister">Username</label>
+          <input type="text" class="form-control"
+                 name="usernameRegister"
+                 id="usernameRegister"
+                 placeholder="Enter your username"
+                 [(ngModel)]="model2.usernameRegister"
+                 #usernameRegister = "ngModel"
+                 required>
+          <div *ngIf="registerForm.submitted && !usernameRegister.valid" class="help-block">Username is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': registerForm.submitted && !passwordRegister.valid}">
+          <label for="passwordRegister">Password</label>
+          <input type="text" class="form-control"
+                 name="passwordRegister"
+                 id="passwordRegister"
+                 placeholder="Enter your password"
+                 [(ngModel)]="model2.passwordRegister"
+                 #passwordRegister = "ngModel"
+                 required>
+          <div *ngIf="registerForm.submitted && !passwordRegister.valid" class="help-block">Password is required</div>
+        </div>
+        <div class="form-group">
+          <button type="submit" [disabled]="!registerForm.form.valid" class="btn btn-primary">Register</button>
+          <a (click)="popup2.hide()" class="btn btn-link">Cancel</a>
+        </div>
+      </form>
+    </popup>
 
   </div>
 </nav>

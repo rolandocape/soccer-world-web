@@ -17,6 +17,7 @@ export class TeamsComponent implements OnInit, OnDestroy {
   private teamSlug: any;
   public teamMatches: any = [];
   public teamPlayers: any = [];
+  public managerDetails: any;
 
   constructor(public teamService: TeamsService, private route: ActivatedRoute) {
   }
@@ -40,6 +41,10 @@ export class TeamsComponent implements OnInit, OnDestroy {
       this.teamService.loadTeamPlayers(this.leagueSlug, this.seasonSlug, this.teamSlug)
         .then(data =>{
           this.teamPlayers = data;
+        });
+      this.teamService.loadTeamManager(this.leagueSlug, this.seasonSlug, this.teamSlug)
+        .then(data =>{
+          this.managerDetails = data;
         });
     });
   }

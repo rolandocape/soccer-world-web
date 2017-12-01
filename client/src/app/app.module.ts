@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {HttpModule} from "@angular/http";
 import {RouterModule, Routes} from '@angular/router';
+import { FormsModule }   from '@angular/forms';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule, MatToolbarModule} from '@angular/material';
@@ -20,6 +21,8 @@ import {TeamsModule} from "./teams/teams.module";
 import {RoundMatchesModule} from "./round-matches/round-matches.module";
 import {PlayersModule} from "./players/players.module";
 import {MatchModule} from "./match/match.module";
+import {PopupModule} from "ng2-opd-popup";
+import {UsersService} from "./services/users.service/users.service";
 
 
 // const routes: Routes = [
@@ -37,6 +40,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     FooterComponent,
     HeaderComponent,
     SidenavComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -52,8 +56,10 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {useHash: true
     MatToolbarModule,
     MatSidenavModule,
     MatGridListModule,
+    PopupModule.forRoot(),
+    FormsModule
   ],
-  providers: [SoccerdataService],
+  providers: [SoccerdataService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

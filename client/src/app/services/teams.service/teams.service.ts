@@ -60,4 +60,21 @@ export class TeamsService {
     })
   }
 
+  loadTeamManager(league_slug, season_slug, team_slug) {
+    return new Promise(resolve => {
+      this.http.get('http://localhost:3000/api/manager/' + league_slug + '/' + season_slug + '/' + team_slug)
+        .map(res => {
+          if (res.status < 200 || res.status >= 300) {
+            throw new Error('This request has failed' + res.status);
+          } else {
+            return res.json()
+          }
+        })
+        .subscribe(data => {
+          this.data = data;
+          resolve(this.data);
+        })
+    })
+  }
+
 }
